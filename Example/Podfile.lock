@@ -1,0 +1,19 @@
+PODS:
+  - Kingfisher (4.6.1)
+  - LShuffling (0.0.1):
+    - Kingfisher
+
+DEPENDENCIES:
+  - LShuffling (from `../`)
+
+EXTERNAL SOURCES:
+  LShuffling:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Kingfisher: 1f9157d9c02b380cbd0b7cc890161195164eb634
+  LShuffling: ee48fdd01f1994c961d4c2779c78747771b4203d
+
+PODFILE CHECKSUM: aaf812b1c1e8db535ec664d5aada53128c4e0242
+
+COCOAPODS: 1.4.0

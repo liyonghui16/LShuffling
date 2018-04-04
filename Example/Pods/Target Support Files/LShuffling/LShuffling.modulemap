@@ -1,0 +1,6 @@
+framework module LShuffling {
+  umbrella header "LShuffling-umbrella.h"
+
+  export *
+  module * { export * }
+}
