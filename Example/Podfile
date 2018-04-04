@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'LShuffling_Example' do
+  pod 'LShuffling', :path => '../'
+
+  target 'LShuffling_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
