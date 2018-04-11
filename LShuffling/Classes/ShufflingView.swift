@@ -47,6 +47,12 @@ open class ShufflingView: UIView {
             pageControl.isHidden = !newValue
         }
     }
+    open var pageControlColor: UIColor = UIColor.orange {
+        willSet {
+            pageControl.currentPageIndicatorTintColor = newValue
+        }
+    }
+    open var shufflingInterval: Int = 3
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: bounds)
         scrollView.contentSize = CGSize(width: bounds.size.width * 3, height: bounds.size.height)
@@ -94,7 +100,6 @@ open class ShufflingView: UIView {
         scrollView.addSubview(currentImageView)
         scrollView.addSubview(rightImageView)
         scrollView.contentOffset = CGPoint(x: frame.size.width, y: 0)
-        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureAction))
         addGestureRecognizer(gesture)
         addSubview(titleLabel)
@@ -113,6 +118,7 @@ open class ShufflingView: UIView {
         }
         titleLabel.text = dataSource!.shufflingView(self, titleAt: 0)
         currentIndex = 0
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(shufflingInterval), target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
