@@ -108,16 +108,16 @@ open class ShufflingView: UIView {
     
     public func startShuffling() {
         let imageCount = dataSource!.imageCountInShufflingView(self)
+        guard imageCount > 0 else {return}
         pageControl.currentPage = 0
         pageControl.numberOfPages = imageCount
         pageControlSize = pageControl.size(forNumberOfPages: imageCount)
         setNeedsLayout()
-        currentImageView.kf.setImage(with: URL(string: dataSource!.shufflingView(self, imageAt: 0)), placeholder: dataSource!.placeholder)
-        if imageCount > 1 {
-            rightImageView.kf.setImage(with: URL(string: dataSource!.shufflingView(self, imageAt: 1)), placeholder: dataSource!.placeholder)
-        }
-        titleLabel.text = dataSource!.shufflingView(self, titleAt: 0)
         currentIndex = 0
+        currentImageView.kf.setImage(with: URL(string: dataSource!.shufflingView(self, imageAt: 0)), placeholder: dataSource!.placeholder)
+        titleLabel.text = dataSource!.shufflingView(self, titleAt: 0)
+        guard imageCount > 1 else {return}
+        rightImageView.kf.setImage(with: URL(string: dataSource!.shufflingView(self, imageAt: 1)), placeholder: dataSource!.placeholder)
         timer = Timer.scheduledTimer(timeInterval: TimeInterval(shufflingInterval), target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
     }
     required public init?(coder aDecoder: NSCoder) {
