@@ -118,7 +118,9 @@ open class ShufflingView: UIView {
         titleLabel.text = dataSource!.shufflingView(self, titleAt: 0)
         guard imageCount > 1 else {return}
         rightImageView.kf.setImage(with: URL(string: dataSource!.shufflingView(self, imageAt: 1)), placeholder: dataSource!.placeholder)
-        timer = Timer.scheduledTimer(timeInterval: TimeInterval(shufflingInterval), target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        if timer == nil {
+            timer = Timer.scheduledTimer(timeInterval: TimeInterval(shufflingInterval), target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        }
     }
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
