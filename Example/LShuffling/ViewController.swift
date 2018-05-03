@@ -36,8 +36,8 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ShufflingDataSource {
-    func shufflingView(_ shufflingView: ShufflingView, titleAt index: Int) -> String {
-        return imageUrls[index]["title"] as! String
+    func shufflingView(_ shufflingView: ShufflingView, titleAt index: Int) -> String? {
+        return imageUrls[index]["title"] as? String
     }
     func shufflingView(_ shufflingView: ShufflingView, imageAt index: Int) -> String {
         return imageUrls[index]["img_url"] as! String

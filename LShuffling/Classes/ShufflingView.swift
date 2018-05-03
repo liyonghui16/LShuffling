@@ -12,7 +12,7 @@ import Kingfisher
 public protocol ShufflingDataSource: NSObjectProtocol {
     func imageCountInShufflingView(_ shufflingView: ShufflingView) -> Int
     func shufflingView(_ shufflingView: ShufflingView, imageAt index: Int) -> String
-    func shufflingView(_ shufflingView: ShufflingView, titleAt index: Int) -> String
+    func shufflingView(_ shufflingView: ShufflingView, titleAt index: Int) -> String?
     var placeholder: UIImage? { get }
 }
 
@@ -24,13 +24,11 @@ public protocol ShufflingDelegate: NSObjectProtocol {
 public extension ShufflingDelegate {
     func shufflingView(_ shufflingView: ShufflingView, didSrollTo index: Int) {}
     func shufflingView(_ shufflingView: ShufflingView, didClickImageAt index: Int) {}
-    
 }
 
 public extension ShufflingDataSource {
-    var placeholder: UIImage? {
-        return nil
-    }
+    var placeholder: UIImage? {return nil}
+    func shufflingView(_ shufflingView: ShufflingView, titleAt index: Int) -> String? {return nil}
 }
 
 open class ShufflingView: UIView {
@@ -109,15 +107,16 @@ open class ShufflingView: UIView {
     public func startShuffling() {
         let imageCount = dataSource!.imageCountInShufflingView(self)
         guard imageCount > 0 else {return}
+        guard let dataSource = dataSource else { return }
         pageControl.currentPage = 0
         pageControl.numberOfPages = imageCount
         pageControlSize = pageControl.size(forNumberOfPages: imageCount)
         setNeedsLayout()
         currentIndex = 0
-        currentImageView.kf.setImage(with: URL(string: dataSource!.shufflingView(self, imageAt: 0)), placeholder: dataSource!.placeholder)
-        titleLabel.text = dataSource!.shufflingView(self, titleAt: 0)
+        currentImageView.kf.setImage(with: URL(string: dataSource.shufflingView(self, imageAt: 0)), placeholder: dataSource.placeholder)
+        titleLabel.text = dataSource.shufflingView(self, titleAt: 0)
         guard imageCount > 1 else {return}
-        rightImageView.kf.setImage(with: URL(string: dataSource!.shufflingView(self, imageAt: 1)), placeholder: dataSource!.placeholder)
+        rightImageView.kf.setImage(with: URL(string: dataSource.shufflingView(self, imageAt: 1)), placeholder: dataSource.placeholder)
         if timer == nil {
             timer = Timer.scheduledTimer(timeInterval: TimeInterval(shufflingInterval), target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
         }
@@ -171,8 +170,10 @@ open class ShufflingView: UIView {
 
 extension ShufflingView: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        pauseTimer()
     }
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        startTimer()
     }
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let imageCount = dataSource!.imageCountInShufflingView(self)
