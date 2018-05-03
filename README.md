@@ -9,6 +9,9 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+## Screen Shot
+![screen](https://github.com/liyonghui16/LShuffling/blob/master/home.gif)
+
 ## Requirements
 
 ## Installation
